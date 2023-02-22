@@ -1,0 +1,26 @@
+{
+  "name": "cli-express-app",
+  "version": "1.0.0",
+  "description": "Create Express application with no configuration using the clean architecture pattren",
+  "main": "index.js",
+  "bin": {
+    "cli-express-app": "./index.js"
+  },
+  "type": "module",
+  "scripts": {},
+  "keywords": [
+    "Express",
+    "clean architecture",
+    "create-express-app",
+    "cli",
+    "web",
+    "rest",
+    "restfull"
+  ],
+  "author": "Meddeb",
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^5.2.0",
+    "yargs-parser": "^21.1.1"
+  }
+}
