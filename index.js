@@ -1,26 +1,24 @@
 #!/usr/bin/env node
 
 import { execSync } from "child_process";
-import { join, basename } from "path";
+import { join, basename, dirname } from "path";
 import { mkdirSync, rmSync, readFileSync, writeFileSync, existsSync } from "fs";
 import chalk from "chalk";
 import argParser from "yargs-parser";
 const { _, n, name, h, help } = argParser(process.argv.slice(2));
-let currentPackage = JSON.parse(
-  readFileSync(join(process.cwd(), "package.json"), "utf-8")
-);
 
 const helpMessage = `
     cli-express-app
 
     ${chalk.bgGreen(" Description ")}
-        ${currentPackage.description}
+      Create Express application with no configuration using the clean architecture pattren
 
     ${chalk.bgGreen(" Usage ")}
     $ npx cli-express-app <path> [options]
     
     ${chalk.bgGreen(" Options ")}
     -n, --name: name of the project, the project will be named as the current folder by default
+    -h, --help: help menu
     
     ${chalk.bgGreen(" Examples ")}
         $ npx cli-express-app my_new_app

@@ -1,6 +1,6 @@
 {
   "name": "cli-express-app",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Create Express application with no configuration using the clean architecture pattren",
   "main": "index.js",
   "bin": {
