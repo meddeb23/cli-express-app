@@ -1,28 +1,23 @@
 #!/usr/bin/env node
 
 import { execSync } from "child_process";
-import { join, basename, dirname } from "path";
+import { join, basename } from "path";
 import { mkdirSync, rmSync, readFileSync, writeFileSync, existsSync } from "fs";
 import chalk from "chalk";
 import argParser from "yargs-parser";
+import { getHelpMessage } from "../lib/index.js";
 const { _, n, name, h, help } = argParser(process.argv.slice(2));
 
-const helpMessage = `
-    cli-express-app
-
-    ${chalk.bgGreen(" Description ")}
-      Create Express application with no configuration using the clean architecture pattren
-
-    ${chalk.bgGreen(" Usage ")}
-    $ npx cli-express-app <path> [options]
-    
-    ${chalk.bgGreen(" Options ")}
-    -n, --name: name of the project, the project will be named as the current folder by default
-    -h, --help: help menu
-    
-    ${chalk.bgGreen(" Examples ")}
-        $ npx cli-express-app my_new_app
-    `;
+const helpMessage = getHelpMessage({
+  description:
+    "Create Express application with no configuration using the clean architecture pattren",
+  usage: "$ npx cli-express-app <path> [options]",
+  options: [
+    "-n, --name: name of the project, the project will be named as the current folder by default",
+    "-h, --help: help menu",
+  ],
+  examples: "$ npx cli-express-app my_new_app",
+});
 
 if (h || help) {
   console.log(helpMessage);
