@@ -1,11 +1,11 @@
 {
   "name": "cli-express-app",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "description": "Create Express application with no configuration using the clean architecture pattren",
   "main": "index.js",
   "bin": {
-    "cli-express-app": "./bin/index.js",
-    "generate_module": "./bin/index.js"
+    "cli-express-app": "./bin/generate-app.js",
+    "generate_module": "./bin/generate-module.js"
   },
   "type": "module",
   "scripts": {},

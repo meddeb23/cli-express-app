@@ -2,7 +2,7 @@
 
 import { execSync } from "child_process";
 import { join, basename } from "path";
-import { mkdirSync, rmSync, readFileSync, writeFileSync, existsSync } from "fs";
+import { mkdirSync, readFileSync, writeFileSync, existsSync } from "fs";
 import chalk from "chalk";
 import argParser from "yargs-parser";
 import { getHelpMessage } from "../lib/index.js";
@@ -65,13 +65,11 @@ async function main() {
 
     console.log("\n[3/4] ❌ Removing useless files");
     execSync("npx rimraf ./.git");
-    rmSync(join(projectPath, "bin"), { recursive: true });
 
     console.log("[4/4] 🧹 cleaning up\n");
     let package_json = readFileSync(join(projectPath, "package.json"), "utf-8");
     package_json = JSON.parse(package_json);
     package_json.name = projectName;
-    delete package_json.bin;
     writeFileSync(
       join(projectPath, "package.json"),
       JSON.stringify(package_json),
@@ -81,8 +79,7 @@ async function main() {
     console.log(
       `\n✨ ${chalk.bgBlue(
         " Success! "
-      )} setup is completed, new app at ${chalk.bgGreen(_[0])}\n\n> cd ${
-        _[0]
+      )} setup is completed, new app at ${chalk.bgGreen(_[0])}\n\n> cd ${_[0]
       }\n> npm run dev\n\n\n 🍕 Happy coding `
     );
   } catch (error) {

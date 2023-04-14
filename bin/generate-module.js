@@ -6,7 +6,8 @@ import { mkdirSync, writeFileSync } from "fs";
 
 import { getHelpMessage } from "../lib/index.js";
 import chalk from "chalk";
-import { moduleSnippets as content } from "../lib/index.js";
+import { jsModuleSnippets, tsModuleSnippets } from "../lib/index.js";
+
 
 const { _, h, help, ts } = argParser(process.argv.slice(2));
 
@@ -19,8 +20,15 @@ const helpMessage = getHelpMessage({
     "--ts : generate TypeScript files, By default le module will be in pure javascript",
     "-h, --help: help menu",
   ],
-  examples: "$ npx generate_module user",
+  examples: "$ npx cli-express-app generate_module user",
 });
+
+if (!_.length) {
+  console.log(`${chalk.bgRed(" UNVALID ARGUMENTS ")} module name is required\n`);
+  console.log(`${chalk.bgBlue(" Help ")}`);
+  console.log(helpMessage);
+  process.exit(1);
+}
 
 if (h || help) {
   console.log(helpMessage);
@@ -28,7 +36,7 @@ if (h || help) {
 }
 
 const currentPath = process.cwd();
-const modulePath = join(currentPath, _[0]);
+const modulePath = ts ? join(currentPath, "src", _[0]) : join(currentPath, _[0])
 const name = basename(modulePath);
 
 try {
@@ -49,16 +57,25 @@ try {
 async function main() {
   try {
     process.chdir(modulePath);
+    const content = ts ? tsModuleSnippets : jsModuleSnippets
+    console.log(`\n🚚 creating new module at ${chalk.bgBlue(modulePath)}\n`);
+
+    const lowName = name.toLowerCase()
+    const capName = name[0].toUpperCase() + name.substring(1)
     content.forEach((file) => {
-      file.content = file.content.replaceAll("$1", name);
+      file.content = file.content.replaceAll("$1", lowName);
       file.content = file.content.replaceAll(
         "$2",
-        name[0].toUpperCase() + name.substring(1)
+        capName
       );
-      file.name = file.name.replaceAll("$1", name);
+      file.name = file.name.replaceAll("$1", lowName);
+      file.name = file.name.replaceAll("$2", capName);
+
       writeFileSync(`${file.name}.${fileType}`, file.content || "");
+      console.log(`\n\t✅ creating new file at ${chalk.blue(`${file.name}.${fileType}`)}`);
+
     });
-    console.log(`🚚 new module is created at ${chalk.bgGreen(_[0])}`);
+    console.log(`\n\n✨ Route export with name ${chalk.green(`${lowName}Route`)}`);
   } catch (error) {
     console.log(error);
   }
